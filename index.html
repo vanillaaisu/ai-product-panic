@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en" class="has-intro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0B1026">
+  <meta name="description" content="A playful, facilitator-led AI product invention game for university workshops.">
+  <title>AI Product Panic — Workshop Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>document.documentElement.classList.add('has-intro');</script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <section class="intro-overlay" id="intro-overlay" role="dialog" aria-modal="true" aria-label="AI Workshop welcome">
+    <div class="intro-content">
+      <p class="intro-kicker">BCU Computing Society presents</p>
+      <h1 class="intro-title" aria-label="The AI Workshop">
+        <span>The</span>
+        <span class="intro-accent">AI</span>
+        <span class="intro-accent">Workshop</span>
+      </h1>
+      <div class="intro-cards" aria-hidden="true">
+        <span class="intro-card intro-audience">Audience <b>◎</b></span>
+        <span class="intro-card intro-problem">Problem <b>⌁</b></span>
+        <span class="intro-card intro-constraint">Constraint <b>✦</b></span>
+      </div>
+      <p class="intro-tagline">AI Product Panic!</p>
+      <p class="intro-subline">Three prompts. One invention. Almost no time.</p>
+      <button class="intro-begin" id="intro-begin" type="button" autofocus>Let's begin</button>
+    </div>
+  </section>
+
+  <a class="skip-link" href="#main-content">Skip to activity</a>
+
+  <header class="site-header">
+    <div class="workshop-banner" aria-label="Workshop banner">
+      <div class="banner-copy">
+        <p class="eyebrow eyebrow-light">BCU Computing Society presents</p>
+        <h1 class="workshop-title">The AI Workshop</h1>
+        <p class="workshop-support">A rapid-fire product challenge where strange problems meet questionable intelligence.</p>
+        <p class="host-line">Hosted by the AI Team: <span>Mukul · Orlando · Zak · Tahsin</span></p>
+      </div>
+      <button class="society-logo-trigger" id="society-logo-trigger" type="button" aria-haspopup="dialog" aria-label="About BCU Computing Society">
+        <img class="society-logo-image" id="society-logo-image" alt="BCU Computing Society logo" hidden>
+        <span class="society-logo-placeholder" id="society-logo-placeholder">
+          <svg class="image-outline-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <rect x="5" y="7" width="38" height="34" rx="5"></rect>
+            <circle cx="17" cy="18" r="3.5"></circle>
+            <path d="m9 36 11-11 7 7 5-5 7 9"></path>
+          </svg>
+          <span class="logo-placeholder-title">Society logo</span>
+          <span class="logo-placeholder-hint">Add logo file later</span>
+        </span>
+      </button>
+    </div>
+
+    <div class="brand-row">
+      <a class="brand" href="#main-content" aria-label="AI Product Panic home">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span>AI Product <strong>Panic!</strong></span>
+      </a>
+      <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false" aria-label="Toggle sound">
+        <span aria-hidden="true" id="sound-icon">♪</span>
+        <span id="sound-label">Sound off</span>
+      </button>
+    </div>
+  </header>
+
+  <nav class="main-nav" aria-label="Facilitator navigation">
+    <button type="button" class="nav-button is-active" data-view="new-challenge" aria-current="page">
+      <span class="nav-index">01</span>
+      <span class="nav-copy"><span class="nav-label">Draw</span><small>Generate a challenge</small></span>
+    </button>
+    <button type="button" class="nav-button" data-view="team-board">
+      <span class="nav-index">02</span>
+      <span class="nav-copy"><span class="nav-label">Teams</span><small>Review the room</small></span>
+      <span class="nav-count" id="team-count">0</span>
+    </button>
+    <button type="button" class="nav-button" data-view="creation-timer">
+      <span class="nav-index">03</span>
+      <span class="nav-copy"><span class="nav-label">Build</span><small>Six-minute sprint</small></span>
+    </button>
+    <button type="button" class="nav-button" data-view="pitch-timer">
+      <span class="nav-index">04</span>
+      <span class="nav-copy"><span class="nav-label">Pitch</span><small>2:30 pitch</small></span>
+    </button>
+  </nav>
+  <p class="app-notice" id="app-notice" role="status" aria-live="polite" hidden></p>
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-relevant="additions text"></div>
+
+  <main id="main-content" class="content-width">
+    <section class="app-view is-visible" id="view-new-challenge" data-view-panel="new-challenge" aria-labelledby="new-challenge-heading">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">Challenge generator</p>
+          <h1 id="new-challenge-heading">Let chance brief your next AI start-up.</h1>
+          <p class="page-intro">Name the team, reveal three unlikely ingredients, and build an idea around whatever appears.</p>
+        </div>
+        <span class="heading-mark" aria-hidden="true">✦</span>
+      </div>
+
+      <section class="paper-panel challenge-builder" aria-label="Challenge generator">
+        <div class="team-name-row">
+          <label for="team-name">Who’s building?</label>
+          <input id="team-name" type="text" maxlength="60" autocomplete="off" placeholder="Enter a team name">
+          <p class="field-support" id="team-name-helper" role="status" aria-live="polite">Give this challenge a team before revealing the brief.</p>
+          <p class="field-error" id="team-name-error" role="alert" hidden></p>
+        </div>
+        <div class="current-team-label" id="current-team-label" hidden></div>
+        <div class="challenge-grid" aria-live="polite" aria-atomic="false">
+          <article class="challenge-card audience-card" id="audience-card">
+            <div class="card-topline">
+              <span class="category-icon" aria-hidden="true">◎</span>
+              <span class="category-name">Audience</span>
+            </div>
+            <p class="card-question">Who is it for?</p>
+            <p class="card-value" id="audience-value">Waiting for a crowd</p>
+            <span class="card-sticker" aria-hidden="true">01</span>
+          </article>
+          <article class="challenge-card problem-card" id="problem-card">
+            <div class="card-topline">
+              <span class="category-icon" aria-hidden="true">⌁</span>
+              <span class="category-name">Problem</span>
+            </div>
+            <p class="card-question">What needs fixing?</p>
+            <p class="card-value" id="problem-value">Waiting for trouble</p>
+            <span class="card-sticker" aria-hidden="true">02</span>
+          </article>
+          <article class="challenge-card constraint-card" id="constraint-card">
+            <div class="card-topline">
+              <span class="category-icon" aria-hidden="true">✦</span>
+              <span class="category-name">Constraint</span>
+            </div>
+            <p class="card-question">What’s the catch?</p>
+            <p class="card-value" id="constraint-value">Waiting for a twist</p>
+            <span class="card-sticker" aria-hidden="true">03</span>
+          </article>
+        </div>
+
+        <div class="builder-actions">
+          <button class="button button-primary" id="generate-button" type="button">Reveal the brief</button>
+          <button class="button button-ghost" id="draw-again-button" type="button" hidden>Shuffle again</button>
+          <button class="button button-secondary" id="copy-challenge" type="button" disabled>Copy brief</button>
+          <button class="button button-outline" id="save-challenge" type="button" disabled>Add team to the board</button>
+        </div>
+
+        <p class="status-message" id="challenge-status" role="status" aria-live="polite">Give this challenge a team before revealing the brief.</p>
+        <div class="saved-next-actions" id="saved-next-actions" hidden>
+          <span class="saved-note"><span aria-hidden="true">✓</span> Brief added to the board.</span>
+          <button class="button button-primary" id="start-creation-from-new" type="button">Open the build sprint</button>
+        </div>
+      </section>
+
+      <details class="manage-panel">
+        <summary class="manage-summary"><span class="manage-sticker" aria-hidden="true">＋</span><span><strong>Shape the prompt deck</strong><small>Add a few workshop-specific prompts or remove the ones that do not fit the room.</small></span><span class="summary-chevron" aria-hidden="true">⌄</span></summary>
+        <div class="manage-content">
+          <p class="manage-intro">Custom cards are saved in this browser and included in future draws.</p>
+          <form class="custom-card-form" id="custom-card-form">
+            <label for="card-category">Category</label>
+            <select id="card-category" name="category">
+              <option value="audience">Audience</option>
+              <option value="problem">Problem</option>
+              <option value="constraint">Constraint</option>
+            </select>
+            <label for="custom-card-entry">New card</label>
+            <input id="custom-card-entry" name="entry" type="text" maxlength="120" placeholder="Add a delightfully odd idea…" required>
+            <button class="button button-secondary" type="submit">Add card</button>
+          </form>
+          <div class="custom-lists" id="custom-lists" aria-live="polite"></div>
+          <button class="text-button restore-button" id="restore-defaults" type="button">Restore default cards</button>
+        </div>
+      </details>
+    </section>
+
+    <section class="app-view" id="view-team-board" data-view-panel="team-board" aria-labelledby="board-heading" hidden>
+      <div class="page-heading compact-heading">
+        <div>
+          <p class="eyebrow">Teams</p>
+          <h1 id="board-heading">Keep the room in view.</h1>
+          <p class="page-intro">Every team, every brief, and where each pitch currently stands.</p>
+        </div>
+        <button class="button button-primary" id="board-new-team" type="button">New team</button>
+      </div>
+
+      <div class="board-list" id="team-list" aria-live="polite"></div>
+      <section class="empty-board paper-panel" id="empty-board">
+        <span class="empty-doodle" aria-hidden="true">✎</span>
+        <h2>No teams on the board yet.</h2>
+        <p>Reveal a brief and assign it to a team. The board will keep track from there.</p>
+        <button class="button button-primary" id="empty-new-team" type="button">Create the first brief</button>
+      </section>
+
+      <section class="workshop-reset">
+        <div>
+          <strong>End of workshop?</strong>
+          <p>This removes all saved teams and challenges from this browser. Built-in cards and your custom cards stay.</p>
+        </div>
+        <button class="button button-danger" id="reset-workshop" type="button">Reset Entire Workshop</button>
+      </section>
+    </section>
+
+    <section class="app-view timer-view" id="view-creation-timer" data-view-panel="creation-timer" aria-labelledby="creation-heading" hidden>
+      <div class="page-heading compact-heading">
+        <div>
+          <p class="eyebrow">The build sprint</p>
+          <h1 id="creation-heading">Six minutes. Make the idea believable.</h1>
+          <p class="page-intro">Decide what the product does, sketch the interaction, and give everyone a part in the demonstration.</p>
+        </div>
+        <span class="timer-badge">06:00</span>
+      </div>
+
+      <section class="paper-panel timer-panel creation-panel" id="creation-panel">
+        <div class="timer-team-name" id="creation-team-name">Choose a team from the board</div>
+        <div class="timer-display" id="creation-timer-display" role="timer" aria-label="6 minutes 00 seconds remaining">06:00</div>
+        <p class="timer-message" id="creation-timer-message" role="status" aria-live="polite">The room is ready when you are.</p>
+        <div class="timer-controls">
+          <button class="button button-primary" id="creation-start" type="button" disabled>Start</button>
+          <button class="button button-secondary" id="creation-pause" type="button" hidden>Pause</button>
+          <button class="button button-secondary" id="creation-resume" type="button" hidden>Resume</button>
+          <button class="button button-outline" id="creation-reset" type="button">Reset timer</button>
+          <button class="button button-secondary" id="creation-finish-early" type="button" hidden>Finish early</button>
+        </div>
+        <div class="pitch-ready-actions" id="pitch-ready-actions" hidden>
+          <p>Build time is over. Bring the idea to the room.</p>
+          <button class="button button-primary" id="start-pitch-from-creation" type="button">Open the pitch stage</button>
+        </div>
+        <div class="checklist-wrap">
+          <h2>Before the clock wins</h2>
+          <ul class="checklist">
+            <li><label><input type="checkbox"><span class="checkmark" aria-hidden="true"></span>Name the product</label></li>
+            <li><label><input type="checkbox"><span class="checkmark" aria-hidden="true"></span>Define what the AI actually does</label></li>
+            <li><label><input type="checkbox"><span class="checkmark" aria-hidden="true"></span>Sketch the main interaction</label></li>
+            <li><label><input type="checkbox"><span class="checkmark" aria-hidden="true"></span>Give every team member a role</label></li>
+            <li><label><input type="checkbox"><span class="checkmark" aria-hidden="true"></span>Prepare one memorable demonstration moment</label></li>
+          </ul>
+        </div>
+      </section>
+      <div class="timer-view-footer"><button class="text-button" id="creation-return-board" type="button">← Back to teams</button></div>
+    </section>
+
+    <section class="app-view timer-view" id="view-pitch-timer" data-view-panel="pitch-timer" aria-labelledby="pitch-heading" hidden>
+      <div class="page-heading compact-heading">
+        <div>
+          <p class="eyebrow">The pitch stage</p>
+          <h1 id="pitch-heading">Two minutes and thirty seconds. Sell the impossible.</h1>
+          <p class="page-intro">One clear problem, one strange solution, and one reason the room should believe it.</p>
+        </div>
+        <span class="timer-badge pitch-badge">02:30</span>
+      </div>
+
+      <section class="paper-panel timer-panel pitch-panel" id="pitch-panel">
+        <div class="timer-team-name" id="pitch-team-name">Choose a team from the board</div>
+        <div class="pitch-timer" id="pitch-timer-display" role="timer" aria-label="2 minutes 30 seconds remaining">02:30</div>
+        <p class="timer-message" id="pitch-timer-message" role="status" aria-live="polite">Put the team at centre stage.</p>
+        <div class="timer-controls">
+          <button class="button button-primary" id="pitch-start" type="button" disabled>Start the pitch</button>
+          <button class="button button-secondary" id="pitch-pause" type="button" hidden>Pause</button>
+          <button class="button button-secondary" id="pitch-resume" type="button" hidden>Resume</button>
+          <button class="button button-outline" id="pitch-reset" type="button">Reset pitch timer</button>
+          <button class="button button-secondary" id="pitch-finish-early" type="button" hidden>End pitch early</button>
+        </div>
+        <div class="pitch-finished-actions" id="pitch-finished-actions" hidden>
+          <p>That’s time. Leave them wanting the download.</p>
+          <div class="finish-actions">
+            <button class="button button-primary" id="mark-team-complete" type="button">Mark pitch complete</button>
+            <button class="button button-secondary" id="pitch-return-board" type="button">Back to teams</button>
+            <button class="button button-outline" id="prepare-next-team" type="button">Set up the next team</button>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer"><span aria-hidden="true">✦</span> Everyone must have a role in the demonstration.</footer>
+
+  <dialog class="society-dialog" id="society-dialog" aria-labelledby="society-dialog-heading">
+    <div class="society-dialog-content">
+      <button class="dialog-close" id="society-dialog-close" type="button" aria-label="Close society information">×</button>
+      <p class="eyebrow">Workshop host</p>
+      <h2 id="society-dialog-heading">BCU Computing Society</h2>
+      <p>This workshop is hosted by the AI Team.</p>
+      <p class="society-hosts">Mukul · Orlando · Zak · Tahsin</p>
+      <button class="button button-primary" id="society-dialog-close-action" type="button">Close</button>
+    </div>
+  </dialog>
+  <dialog class="rename-dialog" id="rename-dialog" aria-labelledby="rename-heading">
+    <form method="dialog" id="rename-form">
+      <button class="dialog-close" value="cancel" formnovalidate aria-label="Close rename dialog">×</button>
+      <p class="eyebrow">Team board</p>
+      <h2 id="rename-heading">Edit team name</h2>
+      <label for="rename-input">Team name</label>
+      <input id="rename-input" type="text" maxlength="60" required>
+      <p class="field-error" id="rename-error" role="alert" hidden></p>
+      <div class="dialog-actions">
+        <button class="button button-outline" value="cancel" formnovalidate>Cancel</button>
+        <button class="button button-primary" id="rename-save" value="save">Save name</button>
+      </div>
+    </form>
+  </dialog>
+
+  <noscript>
+    <p class="noscript-message">Please enable JavaScript to use the AI Product Panic workshop game.</p>
+  </noscript>
+</body>
+</html>
